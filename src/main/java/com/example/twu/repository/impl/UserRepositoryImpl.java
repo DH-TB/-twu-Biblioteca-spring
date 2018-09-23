@@ -9,7 +9,12 @@ import org.springframework.stereotype.Repository;
 public class UserRepositoryImpl implements UserRepository{
 
     @Override
-    public User createUser(User user) {
-        return UserStorage.createUser(user);
+    public User addUser(User user) {
+        return UserStorage.addUser(user);
+    }
+
+    @Override
+    public boolean loginUser(String name, String password) {
+        return UserStorage.loginUser(name, password);
     }
 }

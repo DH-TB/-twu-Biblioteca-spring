@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.junit.Assert.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -49,5 +50,18 @@ class UserControllerTests {
 
         int currentSize = UserStorage.getSize();
         assertEquals(originSize + 1, currentSize);
+    }
+
+    @Test
+    void should_login_success() throws Exception {
+        User user = new User("111-1111", "user", "pass", "929659475@qq.com", "15091671302", "xi'an");
+        UserStorage.addUser(user);
+
+        mockMvc.perform(get("/api/users")
+                .param("name", "user")
+                .param("password", "pass"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").value("login success"));
     }
 }

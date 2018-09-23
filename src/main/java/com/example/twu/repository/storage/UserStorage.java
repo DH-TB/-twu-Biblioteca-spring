@@ -2,11 +2,10 @@ package com.example.twu.repository.storage;
 
 import com.example.twu.entities.User;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 public class UserStorage {
-    private static final List<User> USERS = new ArrayList<>();
+    private static final HashMap<String, User> USERS = new HashMap<>();
 
     public static void clear() {
         USERS.clear();
@@ -16,8 +15,13 @@ public class UserStorage {
         return USERS.size();
     }
 
-    public static User createUser(User user) {
-        USERS.add(user);
+    public static User addUser(User user) {
+        USERS.put(user.getName(), user);
         return user;
+    }
+
+    public static boolean loginUser(String name, String password) {
+        User user = USERS.get(name);
+        return user.getPassword().equals(password);
     }
 }
