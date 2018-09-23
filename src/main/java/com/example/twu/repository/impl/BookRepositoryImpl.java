@@ -19,4 +19,9 @@ public class BookRepositoryImpl implements BookRepository {
     public Book addBook(Book book) {
         return BookStorage.addBook(book);
     }
+
+    @Override
+    public Book findBook(Integer bookId) {
+        return BookStorage.findBook(bookId);
+    }
 }

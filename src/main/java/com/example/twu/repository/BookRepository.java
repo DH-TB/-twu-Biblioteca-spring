@@ -9,4 +9,6 @@ public interface BookRepository {
 
     Book addBook(Book book);
 
+    Book findBook(Integer bookId);
+
 }

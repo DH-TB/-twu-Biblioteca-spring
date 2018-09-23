@@ -2,10 +2,10 @@ package com.example.twu.entities;
 
 public class CheckoutBook {
     private String userId;
-    private int bookId;
+    private Integer bookId;
 
 
-    public CheckoutBook(String userId, int bookId) {
+    public CheckoutBook(String userId, Integer bookId) {
         this.userId = userId;
         this.bookId = bookId;
     }
@@ -14,7 +14,7 @@ public class CheckoutBook {
         return userId;
     }
 
-    public int getBookId() {
+    public Integer getBookId() {
         return bookId;
     }
 }

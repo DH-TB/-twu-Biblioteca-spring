@@ -25,4 +25,8 @@ public class BookStorage {
         BOOKS.put(book.getId(), book);
         return book;
     }
+
+    public static Book findBook(Integer bookId) {
+        return BOOKS.get(bookId);
+    }
 }
