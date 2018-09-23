@@ -22,6 +22,9 @@ public class UserStorage {
 
     public static boolean loginUser(String name, String password) {
         User user = USERS.get(name);
-        return user.getPassword().equals(password);
+        if (user != null) {
+            return user.getPassword().equals(password);
+        }
+        return false;
     }
 }

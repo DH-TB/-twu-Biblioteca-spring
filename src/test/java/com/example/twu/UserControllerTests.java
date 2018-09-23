@@ -64,4 +64,38 @@ class UserControllerTests {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").value("login success"));
     }
+
+    @Test
+    void should_login_fail_when_password_error() throws Exception {
+        User user = new User("111-1111", "user", "pass", "929659475@qq.com", "15091671302", "xi'an");
+        UserStorage.addUser(user);
+
+        mockMvc.perform(get("/api/users")
+                .param("name", "user")
+                .param("password", "pass_error"))
+                .andDo(print())
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void should_login_fail_when_username_error() throws Exception {
+        User user = new User("111-1111", "user", "pass", "929659475@qq.com", "15091671302", "xi'an");
+        UserStorage.addUser(user);
+
+        mockMvc.perform(get("/api/users")
+                .param("name", "user_error")
+                .param("password", "pass"))
+                .andDo(print())
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void should_login_fail_when_user_not_exist() throws Exception {
+        mockMvc.perform(get("/api/users")
+                .param("name", "user")
+                .param("password", "pass_error"))
+                .andDo(print())
+                .andExpect(status().isUnauthorized());
+    }
+
 }
