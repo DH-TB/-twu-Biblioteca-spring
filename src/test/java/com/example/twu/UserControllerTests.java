@@ -4,6 +4,7 @@ package com.example.twu;
 import com.example.twu.entities.User;
 import com.example.twu.repository.storage.UserStorage;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -97,5 +98,4 @@ class UserControllerTests {
                 .andDo(print())
                 .andExpect(status().isUnauthorized());
     }
-
 }

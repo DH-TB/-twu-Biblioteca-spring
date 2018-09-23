@@ -31,7 +31,7 @@ class MenuControllerTests {
 
     @Test
     void should_get_menus() throws Exception {
-        String expectedContent = "\n***********\n" +
+        String expectedMenus = "\n***********\n" +
                 "1 login\n" +
                 "2 show all book\n" +
                 "3 show all movie\n" +
@@ -46,7 +46,7 @@ class MenuControllerTests {
         mockMvc.perform(get("/api/menus"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.menu").value(expectedContent));
+                .andExpect(jsonPath("$.menu").value(expectedMenus));
     }
 
 
