@@ -1,20 +1,24 @@
 package com.example.twu;
 
 import com.example.twu.entities.Book;
+import com.example.twu.entities.BookRecord;
 import com.example.twu.entities.User;
 import com.example.twu.repository.storage.BookStorage;
-import com.example.twu.repository.storage.CheckoutBookStorage;
+import com.example.twu.repository.storage.BookRecordStorage;
 import com.example.twu.repository.storage.UserStorage;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -22,7 +26,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-class CheckoutBookControllerTests {
+class BookRecordControllerTests {
     private MockMvc mockMvc;
 
     @Autowired
@@ -31,7 +35,7 @@ class CheckoutBookControllerTests {
     @BeforeEach
     void setup() {
         mockMvc = webAppContextSetup(webApplicationContext).build();
-        CheckoutBookStorage.clear();
+        BookRecordStorage.clear();
     }
 
     @Test
@@ -42,8 +46,11 @@ class CheckoutBookControllerTests {
         User user = new User("111-1111", "user", "pass", "929659475@qq.com", "15091671302", "xi'an");
         UserStorage.addUser(user);
 
-        mockMvc.perform(get("/api/checkout_books/{bookId}", 1)
-                .header("userId", "111-1111"))
+        BookRecord bookRecord = new BookRecord(1, user.getId(), book.getId());
+
+        mockMvc.perform(post("/api/book_records")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(bookRecord)))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").value("Thank you! Enjoy the book."));
@@ -54,10 +61,33 @@ class CheckoutBookControllerTests {
         User user = new User("111-1111", "user", "pass", "929659475@qq.com", "15091671302", "xi'an");
         UserStorage.addUser(user);
 
-        mockMvc.perform(get("/api/checkout_books/{bookId}", 1)
-                .header("userId", "111-1111"))
+        BookRecord bookRecord = new BookRecord(1, user.getId(), 1);
+
+        mockMvc.perform(post("/api/book_records")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(bookRecord)))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$").value("That book is not available."));
     }
+
+    @Test
+    void should_return_book_success_when_input_correct_checkout_bookId() throws Exception {
+        BookRecord bookRecord = new BookRecord(1, "111-1111", 1);
+        BookRecordStorage.addRecord(bookRecord);
+
+        mockMvc.perform(put("/api/book_records/{bookRecordId}", bookRecord.getId()))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").value("Thank you for returning the book."));
+    }
+
+    @Test
+    void should_return_book_fail_when_input_error_checkout_bookId() throws Exception {
+        mockMvc.perform(put("/api/book_records/{bookRecordId}", 1))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$").value("That is not a valid book to return."));
+    }
+
 }
