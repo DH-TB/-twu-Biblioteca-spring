@@ -1,6 +1,6 @@
-package com.example.twu.demo.repository.storage;
+package com.example.twu.repository.storage;
 
-import com.example.twu.demo.entities.Menu;
+import com.example.twu.entities.Menu;
 
 public class MenuStorage {
 

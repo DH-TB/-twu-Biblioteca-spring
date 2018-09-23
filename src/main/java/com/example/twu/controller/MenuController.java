@@ -1,6 +1,6 @@
-package com.example.twu.demo.controller;
+package com.example.twu.controller;
 
-import com.example.twu.demo.repository.MenuRepository;
+import com.example.twu.repository.MenuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

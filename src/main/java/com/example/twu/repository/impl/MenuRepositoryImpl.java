@@ -1,8 +1,8 @@
-package com.example.twu.demo.repository.impl;
+package com.example.twu.repository.impl;
 
-import com.example.twu.demo.entities.Menu;
-import com.example.twu.demo.repository.MenuRepository;
-import com.example.twu.demo.repository.storage.MenuStorage;
+import com.example.twu.entities.Menu;
+import com.example.twu.repository.MenuRepository;
+import com.example.twu.repository.storage.MenuStorage;
 import org.springframework.stereotype.Repository;
 
 @Repository

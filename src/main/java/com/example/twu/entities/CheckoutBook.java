@@ -1,4 +1,4 @@
-package com.example.twu.demo.entities;
+package com.example.twu.entities;
 
 public class CheckoutBook {
     private String userId;

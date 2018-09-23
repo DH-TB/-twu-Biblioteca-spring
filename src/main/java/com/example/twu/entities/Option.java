@@ -1,4 +1,4 @@
-package com.example.twu.demo.entities;
+package com.example.twu.entities;
 
 public enum Option {
     LOGIN(1),

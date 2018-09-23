@@ -1,4 +1,4 @@
-package com.example.twu.demo;
+package com.example.twu;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +17,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-class DemoApplicationTests {
+class MenuControllerTests {
 
     private MockMvc mockMvc;
 
@@ -48,5 +48,6 @@ class DemoApplicationTests {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.menu").value(expectedContent));
     }
+
 
 }
