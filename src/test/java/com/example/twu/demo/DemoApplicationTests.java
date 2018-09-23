@@ -7,10 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -33,10 +31,6 @@ class DemoApplicationTests {
 
     @Test
     void should_get_menus() throws Exception {
-        ResultActions perform = mockMvc.perform(get("/api/menus"));
-        perform.andDo(print()).andExpect(status().isOk());
-
-        String responseContent = perform.andReturn().getResponse().getContentAsString();
         String expectedContent = "\n***********\n" +
                 "1 login\n" +
                 "2 show all book\n" +
@@ -49,8 +43,10 @@ class DemoApplicationTests {
                 "***********\n" +
                 "please choose number you want：\n";
 
-        assertEquals(responseContent, expectedContent);
-
+        mockMvc.perform(get("/api/menus"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.menu").value(expectedContent));
     }
 
 }
