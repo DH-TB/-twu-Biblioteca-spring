@@ -25,4 +25,8 @@ public class MovieStorage {
         MOVIES.put(movie.getId(), movie);
         return movie;
     }
+
+    public static boolean containsMovie(Integer movieId) {
+        return MOVIES.containsKey(movieId);
+    }
 }

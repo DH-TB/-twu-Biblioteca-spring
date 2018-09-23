@@ -18,4 +18,9 @@ public class MovieRepositoryImpl implements MovieRepository {
     public Collection<Movie> getMovies() {
         return MovieStorage.getMovies();
     }
+
+    @Override
+    public boolean containsMovie(Integer movieId) {
+        return MovieStorage.containsMovie(movieId);
+    }
 }

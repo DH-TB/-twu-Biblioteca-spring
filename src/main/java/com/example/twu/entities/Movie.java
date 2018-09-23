@@ -1,7 +1,7 @@
 package com.example.twu.entities;
 
 public class Movie {
-    private int id;
+    private Integer id;
     private String name;
     private String year;
     private String director;
@@ -10,7 +10,7 @@ public class Movie {
     public Movie() {
     }
 
-    public Movie(int id, String name, String year, String director, int rate) {
+    public Movie(Integer id, String name, String year, String director, int rate) {
         this.id = id;
         this.name = name;
         this.year = year;
@@ -18,7 +18,7 @@ public class Movie {
         this.rate = rate;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

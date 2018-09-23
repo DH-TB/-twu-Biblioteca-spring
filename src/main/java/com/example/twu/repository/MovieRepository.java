@@ -8,4 +8,6 @@ public interface MovieRepository {
     Movie addMovie(Movie movie);
 
     Collection<Movie> getMovies();
+
+    boolean containsMovie(Integer movieId);
 }
