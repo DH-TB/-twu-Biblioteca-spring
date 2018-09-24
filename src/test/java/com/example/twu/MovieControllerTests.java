@@ -1,8 +1,6 @@
 package com.example.twu;
 
-import com.example.twu.entities.Book;
 import com.example.twu.entities.Movie;
-import com.example.twu.repository.storage.BookStorage;
 import com.example.twu.repository.storage.MovieStorage;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;

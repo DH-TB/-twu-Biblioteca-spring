@@ -40,9 +40,9 @@ class MovieRecordControllerTests {
         Movie movie = new Movie(1, "movie", "2018/3/16", "huanglizhen", 10);
         MovieStorage.addMovie(movie);
 
-        setLoggedUser();
+        User user = setLoggedUser();
 
-        MovieRecord movieRecord = new MovieRecord(1, "111-1111", 1);
+        MovieRecord movieRecord = new MovieRecord(1, user.getId(), 1);
 
         mockMvc.perform(post("/api/movie-records")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -54,8 +54,9 @@ class MovieRecordControllerTests {
 
     @Test
     void should_checkout_movie_fail_when_input_error_movie_id() throws Exception {
-        MovieRecord movieRecord = new MovieRecord(1, "111-1111", 1);
-        setLoggedUser();
+        User user = setLoggedUser();
+
+        MovieRecord movieRecord = new MovieRecord(1, user.getId(), 1);
 
         mockMvc.perform(post("/api/movie-records")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -79,10 +80,10 @@ class MovieRecordControllerTests {
 
     @Test
     void should_return_movie_success_when_input_correct_checkout_movieId() throws Exception {
-        MovieRecord movieRecord = new MovieRecord(1, "111-1111", 1);
-        MovieRecordStorage.addRecord(movieRecord);
+        User user = setLoggedUser();
 
-        setLoggedUser();
+        MovieRecord movieRecord = new MovieRecord(1, user.getId(), 1);
+        MovieRecordStorage.addRecord(movieRecord);
 
         mockMvc.perform(put("/api/movie-records/{movieRecordId}", movieRecord.getId()))
                 .andDo(print())
@@ -111,8 +112,10 @@ class MovieRecordControllerTests {
                 .andExpect(jsonPath("$").value("please login first"));
     }
 
-    private void setLoggedUser() {
+    private User setLoggedUser() {
         User user = new User("111-1111", "user", "pass", "929659475@qq.com", "15091671302", "xi'an");
         UserStorage.setLoggedUser(user);
+
+        return user;
     }
 }

@@ -29,7 +29,6 @@ public class UserController {
 
     @GetMapping("/user-info")
     public ResponseEntity getUserInfo() {
-        new LoggedUserController().getUserInfo();
         User loggedUser = userRepository.getLoggedUser();
         if(loggedUser == null) {
             return new ResponseEntity<>("please login first", HttpStatus.BAD_REQUEST);
