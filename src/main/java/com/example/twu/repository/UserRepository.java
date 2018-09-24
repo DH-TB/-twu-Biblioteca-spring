@@ -7,4 +7,5 @@ public interface UserRepository {
 
     boolean loginUser(String name, String password);
 
+    User getLoggedUser();
 }

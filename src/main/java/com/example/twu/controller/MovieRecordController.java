@@ -18,7 +18,7 @@ public class MovieRecordController {
     private MovieRepository movieRepository;
 
 
-    @PostMapping("/movie_records")
+    @PostMapping("/movie-records")
     public ResponseEntity checkoutMovie(@RequestBody MovieRecord movieRecord) {
         if(movieRepository.containsMovie(movieRecord.getMovieId())) {
             movieRecordRepository.addRecord(movieRecord);
@@ -27,7 +27,7 @@ public class MovieRecordController {
         return new ResponseEntity<>("That movie is not available.", HttpStatus.BAD_REQUEST);
     }
 
-    @PutMapping("/movie_records/{movieRecordId}")
+    @PutMapping("/movie-records/{movieRecordId}")
     public ResponseEntity returnBook(@PathVariable Integer movieRecordId) {
         if(movieRecordRepository.containsRecord(movieRecordId)) {
             movieRecordRepository.updateRecord(movieRecordId);

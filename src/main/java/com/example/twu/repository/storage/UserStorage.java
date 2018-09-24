@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 public class UserStorage {
     private static final HashMap<String, User> USERS = new HashMap<>();
+    private static User LOGGED_USER = null;
 
     public static void clear() {
         USERS.clear();
@@ -23,8 +24,13 @@ public class UserStorage {
     public static boolean loginUser(String name, String password) {
         User user = USERS.get(name);
         if (user != null) {
+            LOGGED_USER = user;
             return user.getPassword().equals(password);
         }
         return false;
+    }
+
+    public static User getLoggedUser() {
+        return LOGGED_USER;
     }
 }

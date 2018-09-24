@@ -26,4 +26,13 @@ public class UserController {
         }
         return new ResponseEntity<>("login fail", HttpStatus.UNAUTHORIZED);
     }
+
+    @GetMapping("/user-info")
+    public ResponseEntity getUserInfo() {
+        User loggedUser = userRepository.getLoggedUser();
+        if(loggedUser == null) {
+            return new ResponseEntity<>("please login first", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(loggedUser, HttpStatus.OK);
+    }
 }

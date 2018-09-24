@@ -54,9 +54,35 @@ class UserControllerTests {
     }
 
     @Test
+    void should_get_user_info() throws Exception {
+        addUser();
+
+        mockMvc.perform(get("/api/users")
+                .param("name", "user")
+                .param("password", "pass"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").value("login success"));
+
+        mockMvc.perform(get("/api/user-info"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value("111-1111"))
+                .andExpect(jsonPath("$.name").value("user"))
+                .andExpect(jsonPath("$.address").value("xi'an"));
+    }
+
+    @Test
+    void should_fail_get_user_info_when_not_login() throws Exception {
+        mockMvc.perform(get("/api/user-info"))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$").value("please login first"));
+    }
+
+    @Test
     void should_login_success() throws Exception {
-        User user = new User("111-1111", "user", "pass", "929659475@qq.com", "15091671302", "xi'an");
-        UserStorage.addUser(user);
+        addUser();
 
         mockMvc.perform(get("/api/users")
                 .param("name", "user")
@@ -68,8 +94,7 @@ class UserControllerTests {
 
     @Test
     void should_login_fail_when_password_error() throws Exception {
-        User user = new User("111-1111", "user", "pass", "929659475@qq.com", "15091671302", "xi'an");
-        UserStorage.addUser(user);
+        addUser();
 
         mockMvc.perform(get("/api/users")
                 .param("name", "user")
@@ -80,9 +105,8 @@ class UserControllerTests {
 
     @Test
     void should_login_fail_when_username_error() throws Exception {
-        User user = new User("111-1111", "user", "pass", "929659475@qq.com", "15091671302", "xi'an");
-        UserStorage.addUser(user);
-
+        addUser();
+        
         mockMvc.perform(get("/api/users")
                 .param("name", "user_error")
                 .param("password", "pass"))
@@ -97,5 +121,10 @@ class UserControllerTests {
                 .param("password", "pass_error"))
                 .andDo(print())
                 .andExpect(status().isUnauthorized());
+    }
+
+    private void addUser() {
+        User user = new User("111-1111", "user", "pass", "929659475@qq.com", "15091671302", "xi'an");
+        UserStorage.addUser(user);
     }
 }

@@ -48,7 +48,7 @@ class BookRecordControllerTests {
 
         BookRecord bookRecord = new BookRecord(1, user.getId(), book.getId());
 
-        mockMvc.perform(post("/api/book_records")
+        mockMvc.perform(post("/api/book-records")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new ObjectMapper().writeValueAsString(bookRecord)))
                 .andDo(print())
@@ -63,7 +63,7 @@ class BookRecordControllerTests {
 
         BookRecord bookRecord = new BookRecord(1, user.getId(), 1);
 
-        mockMvc.perform(post("/api/book_records")
+        mockMvc.perform(post("/api/book-records")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new ObjectMapper().writeValueAsString(bookRecord)))
                 .andDo(print())
@@ -76,7 +76,7 @@ class BookRecordControllerTests {
         BookRecord bookRecord = new BookRecord(1, "111-1111", 1);
         BookRecordStorage.addRecord(bookRecord);
 
-        mockMvc.perform(put("/api/book_records/{bookRecordId}", bookRecord.getId()))
+        mockMvc.perform(put("/api/book-records/{bookRecordId}", bookRecord.getId()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").value("Thank you for returning the book."));
@@ -84,7 +84,7 @@ class BookRecordControllerTests {
 
     @Test
     void should_return_book_fail_when_input_error_checkout_bookId() throws Exception {
-        mockMvc.perform(put("/api/book_records/{bookRecordId}", 1))
+        mockMvc.perform(put("/api/book-records/{bookRecordId}", 1))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$").value("That is not a valid book to return."));

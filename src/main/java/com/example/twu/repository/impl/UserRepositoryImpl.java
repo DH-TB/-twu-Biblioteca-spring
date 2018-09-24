@@ -17,4 +17,9 @@ public class UserRepositoryImpl implements UserRepository{
     public boolean loginUser(String name, String password) {
         return UserStorage.loginUser(name, password);
     }
+
+    @Override
+    public User getLoggedUser() {
+        return UserStorage.getLoggedUser();
+    }
 }

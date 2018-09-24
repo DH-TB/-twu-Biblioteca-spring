@@ -41,7 +41,7 @@ class MovieRecordControllerTests {
 
         MovieRecord movieRecord = new MovieRecord(1, "111-1111", 1);
 
-        mockMvc.perform(post("/api/movie_records")
+        mockMvc.perform(post("/api/movie-records")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new ObjectMapper().writeValueAsString(movieRecord)))
                 .andDo(print())
@@ -53,7 +53,7 @@ class MovieRecordControllerTests {
     void should_checkout_movie_fail_when_input_error_movie_id() throws Exception {
         MovieRecord movieRecord = new MovieRecord(1, "111-1111", 1);
 
-        mockMvc.perform(post("/api/movie_records")
+        mockMvc.perform(post("/api/movie-records")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new ObjectMapper().writeValueAsString(movieRecord)))
                 .andDo(print())
@@ -66,7 +66,7 @@ class MovieRecordControllerTests {
         MovieRecord movieRecord = new MovieRecord(1, "111-1111", 1);
         MovieRecordStorage.addRecord(movieRecord);
 
-        mockMvc.perform(put("/api/movie_records/{movieRecordId}", movieRecord.getId()))
+        mockMvc.perform(put("/api/movie-records/{movieRecordId}", movieRecord.getId()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").value("Thank you for returning the movie."));
@@ -74,7 +74,7 @@ class MovieRecordControllerTests {
 
     @Test
     void should_return_movie_fail_when_input_error_checkout_movieId() throws Exception {
-        mockMvc.perform(put("/api/movie_records/{movieRecordId}", 1))
+        mockMvc.perform(put("/api/movie-records/{movieRecordId}", 1))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$").value("That is not a valid movie to return."));

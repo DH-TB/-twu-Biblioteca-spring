@@ -17,7 +17,7 @@ public class BookRecordController {
     @Autowired
     private BookRepository bookRepository;
 
-    @PostMapping("/book_records")
+    @PostMapping("/book-records")
     public ResponseEntity checkoutBook(@RequestBody BookRecord bookRecord) {
         if (bookRepository.findBook(bookRecord.getBookId()) != null) {
             bookRecordRepository.addRecord(bookRecord);
@@ -26,7 +26,7 @@ public class BookRecordController {
         return new ResponseEntity<>("That book is not available.", HttpStatus.BAD_REQUEST);
     }
 
-    @PutMapping("/book_records/{bookRecordId}")
+    @PutMapping("/book-records/{bookRecordId}")
     public ResponseEntity returnBook(@PathVariable Integer bookRecordId) {
         if(bookRecordRepository.containsRecord(bookRecordId)){
             bookRecordRepository.updateRecord(bookRecordId);
