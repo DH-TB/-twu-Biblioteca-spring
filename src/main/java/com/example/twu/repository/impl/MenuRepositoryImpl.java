@@ -11,4 +11,9 @@ public class MenuRepositoryImpl implements MenuRepository {
     public Menu getMenus() {
         return MenuStorage.getMenus();
     }
+
+    @Override
+    public String getWelcomeInfo() {
+        return MenuStorage.getWelcomeInfo();
+    }
 }

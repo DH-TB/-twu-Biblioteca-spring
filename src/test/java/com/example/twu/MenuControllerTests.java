@@ -49,5 +49,13 @@ class MenuControllerTests {
                 .andExpect(jsonPath("$.menu").value(expectedMenus));
     }
 
+    @Test
+    void should_get_welcome_info() throws Exception {
+        String expectedWelcomeInfo = "*********** Welcome to Biblioteca! ***********";
 
+        mockMvc.perform(get("/api/welcome-info"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").value(expectedWelcomeInfo));
+    }
 }

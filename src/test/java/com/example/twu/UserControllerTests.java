@@ -56,13 +56,6 @@ class UserControllerTests {
     void should_get_user_info() throws Exception {
         addUser();
 
-        mockMvc.perform(get("/api/users")
-                .param("name", "user")
-                .param("password", "pass"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$").value("login success"));
-
         mockMvc.perform(get("/api/user-info"))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -125,5 +118,6 @@ class UserControllerTests {
     private void addUser() {
         User user = new User("111-1111", "user", "pass", "929659475@qq.com", "15091671302", "xi'an");
         UserStorage.addUser(user);
+        UserStorage.setLoggedUser(user);
     }
 }

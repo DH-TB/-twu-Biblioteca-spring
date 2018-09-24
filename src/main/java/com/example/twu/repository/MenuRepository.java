@@ -4,4 +4,6 @@ import com.example.twu.entities.Menu;
 
 public interface MenuRepository {
     Menu getMenus();
+
+    String getWelcomeInfo();
 }

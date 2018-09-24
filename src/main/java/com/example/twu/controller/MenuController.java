@@ -19,4 +19,8 @@ public class MenuController {
         return new ResponseEntity<>(menuRepository.getMenus(), HttpStatus.OK);
     }
 
+    @GetMapping("/welcome-info")
+    public ResponseEntity getWelcomeInfo() {
+        return new ResponseEntity<>(menuRepository.getWelcomeInfo(), HttpStatus.OK);
+    }
 }

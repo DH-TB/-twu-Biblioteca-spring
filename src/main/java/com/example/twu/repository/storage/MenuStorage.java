@@ -22,4 +22,8 @@ public class MenuStorage {
     public static Menu getMenus() {
         return MENU;
     }
+
+    public static String getWelcomeInfo() {
+        return WELCOME_INFO;
+    }
 }
