@@ -36,6 +36,7 @@ class BookRecordControllerTests {
     void setup() {
         mockMvc = webAppContextSetup(webApplicationContext).build();
         BookRecordStorage.clear();
+        UserStorage.clear();
     }
 
     @Test
@@ -43,8 +44,7 @@ class BookRecordControllerTests {
         Book book = new Book(1, "Java", "TWU", "2018/3/16", "人民邮电出版社");
         BookStorage.addBook(book);
 
-        User user = new User("111-1111", "user", "pass", "929659475@qq.com", "15091671302", "xi'an");
-        UserStorage.addUser(user);
+        User user = AddUserAndLogin();
 
         BookRecord bookRecord = new BookRecord(1, user.getId(), book.getId());
 
@@ -58,8 +58,7 @@ class BookRecordControllerTests {
 
     @Test
     void should_checkout_book_fail_when_input_error_book_id() throws Exception {
-        User user = new User("111-1111", "user", "pass", "929659475@qq.com", "15091671302", "xi'an");
-        UserStorage.addUser(user);
+        User user = AddUserAndLogin();
 
         BookRecord bookRecord = new BookRecord(1, user.getId(), 1);
 
@@ -72,7 +71,21 @@ class BookRecordControllerTests {
     }
 
     @Test
+    void should_checkout_book_fail_when_user_not_login() throws Exception {
+        BookRecord bookRecord = new BookRecord(1, "111-1111", 1);
+
+        mockMvc.perform(post("/api/book-records")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(bookRecord)))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$").value("please login first"));
+    }
+
+    @Test
     void should_return_book_success_when_input_correct_checkout_bookId() throws Exception {
+        AddUserAndLogin();
+
         BookRecord bookRecord = new BookRecord(1, "111-1111", 1);
         BookRecordStorage.addRecord(bookRecord);
 
@@ -84,10 +97,30 @@ class BookRecordControllerTests {
 
     @Test
     void should_return_book_fail_when_input_error_checkout_bookId() throws Exception {
+        AddUserAndLogin();
+
         mockMvc.perform(put("/api/book-records/{bookRecordId}", 1))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$").value("That is not a valid book to return."));
     }
 
+    @Test
+    void should_return_book_fail_when_user_not_login() throws Exception {
+        BookRecord bookRecord = new BookRecord(1, "111-1111", 1);
+        BookRecordStorage.addRecord(bookRecord);
+
+        mockMvc.perform(put("/api/book-records/{bookRecordId}", bookRecord.getId()))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$").value("please login first"));
+    }
+
+    private User AddUserAndLogin() {
+        User user = new User("111-1111", "user", "pass", "929659475@qq.com", "15091671302", "xi'an");
+        UserStorage.addUser(user);
+        UserStorage.setLoggedUser(user);
+
+        return user;
+    }
 }

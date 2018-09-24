@@ -106,7 +106,7 @@ class UserControllerTests {
     @Test
     void should_login_fail_when_username_error() throws Exception {
         addUser();
-        
+
         mockMvc.perform(get("/api/users")
                 .param("name", "user_error")
                 .param("password", "pass"))

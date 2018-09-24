@@ -10,6 +10,7 @@ public class UserStorage {
 
     public static void clear() {
         USERS.clear();
+        LOGGED_USER = null;
     }
 
     public static int getSize() {
@@ -32,5 +33,9 @@ public class UserStorage {
 
     public static User getLoggedUser() {
         return LOGGED_USER;
+    }
+
+    public static void setLoggedUser(User user) {
+        LOGGED_USER = user;
     }
 }

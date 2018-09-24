@@ -9,6 +9,7 @@ public class BookRecordStorage {
     private static final Map<Integer, BookRecord> BOOK_RECORD = new HashMap<>();
 
     public static void clear() {
+        BOOK_RECORD.clear();
     }
 
     public static BookRecord addRecord(BookRecord bookRecord) {

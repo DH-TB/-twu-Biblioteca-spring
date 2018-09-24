@@ -9,6 +9,7 @@ public class MovieRecordStorage {
     private static final Map<Integer, MovieRecord> MOVIE_RECORD = new HashMap<>();
 
     public static void clear() {
+        MOVIE_RECORD.clear();
     }
 
     public static boolean updateRecord(Integer id) {
