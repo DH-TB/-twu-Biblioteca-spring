@@ -33,10 +33,6 @@ public class BookRecordController {
         return new ResponseEntity<>("That book is not available.", HttpStatus.BAD_REQUEST);
     }
 
-    private boolean userNotLogin() {
-        return userRepository.getLoggedUser() == null;
-    }
-
     @PutMapping("/book-records/{bookRecordId}")
     public ResponseEntity returnBook(@PathVariable Integer bookRecordId) {
         if(userNotLogin()) {
@@ -50,5 +46,7 @@ public class BookRecordController {
         return new ResponseEntity<>("That is not a valid book to return.", HttpStatus.BAD_REQUEST);
     }
 
-
+    private boolean userNotLogin() {
+        return userRepository.getLoggedUser() == null;
+    }
 }

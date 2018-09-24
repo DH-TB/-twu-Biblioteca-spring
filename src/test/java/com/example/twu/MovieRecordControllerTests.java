@@ -32,12 +32,15 @@ class MovieRecordControllerTests {
     void setup() {
         mockMvc = webAppContextSetup(webApplicationContext).build();
         MovieRecordStorage.clear();
+        UserStorage.clear();
     }
 
     @Test
     void should_checkout_movie_success_when_input_right_movie_id() throws Exception {
         Movie movie = new Movie(1, "movie", "2018/3/16", "huanglizhen", 10);
         MovieStorage.addMovie(movie);
+
+        setLoggedUser();
 
         MovieRecord movieRecord = new MovieRecord(1, "111-1111", 1);
 
@@ -52,6 +55,7 @@ class MovieRecordControllerTests {
     @Test
     void should_checkout_movie_fail_when_input_error_movie_id() throws Exception {
         MovieRecord movieRecord = new MovieRecord(1, "111-1111", 1);
+        setLoggedUser();
 
         mockMvc.perform(post("/api/movie-records")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -62,9 +66,23 @@ class MovieRecordControllerTests {
     }
 
     @Test
+    void should_checkout_movie_fail_when_user_not_login() throws Exception {
+        MovieRecord movieRecord = new MovieRecord(1, "111-1111", 1);
+
+        mockMvc.perform(post("/api/movie-records")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(movieRecord)))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$").value("please login first"));
+    }
+
+    @Test
     void should_return_movie_success_when_input_correct_checkout_movieId() throws Exception {
         MovieRecord movieRecord = new MovieRecord(1, "111-1111", 1);
         MovieRecordStorage.addRecord(movieRecord);
+
+        setLoggedUser();
 
         mockMvc.perform(put("/api/movie-records/{movieRecordId}", movieRecord.getId()))
                 .andDo(print())
@@ -74,10 +92,27 @@ class MovieRecordControllerTests {
 
     @Test
     void should_return_movie_fail_when_input_error_checkout_movieId() throws Exception {
+        setLoggedUser();
+
         mockMvc.perform(put("/api/movie-records/{movieRecordId}", 1))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$").value("That is not a valid movie to return."));
     }
 
+    @Test
+    void should_return_movie_fail_when_user_not_login() throws Exception {
+        MovieRecord movieRecord = new MovieRecord(1, "111-1111", 1);
+        MovieRecordStorage.addRecord(movieRecord);
+
+        mockMvc.perform(put("/api/movie-records/{movieRecordId}", 1))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$").value("please login first"));
+    }
+
+    private void setLoggedUser() {
+        User user = new User("111-1111", "user", "pass", "929659475@qq.com", "15091671302", "xi'an");
+        UserStorage.setLoggedUser(user);
+    }
 }

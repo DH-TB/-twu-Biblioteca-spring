@@ -84,9 +84,9 @@ class BookRecordControllerTests {
 
     @Test
     void should_return_book_success_when_input_correct_checkout_bookId() throws Exception {
-        AddUserAndLogin();
+        User user = AddUserAndLogin();
 
-        BookRecord bookRecord = new BookRecord(1, "111-1111", 1);
+        BookRecord bookRecord = new BookRecord(1, user.getId(), 1);
         BookRecordStorage.addRecord(bookRecord);
 
         mockMvc.perform(put("/api/book-records/{bookRecordId}", bookRecord.getId()))
